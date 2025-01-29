@@ -1,51 +1,23 @@
-﻿using CoreGraphics;
-using UIKit;
+﻿using Microsoft.Extensions.Logging;
 
 namespace MauiApp1;
 
 public partial class MainPage : ContentPage
 {
-    int count = 0;
-
-    public MainPage()
+    public MainPage(ILoggerFactory loggerFactory)
     {
         InitializeComponent();
-    }
 
-    private void OnCounterClicked(object sender, EventArgs e)
-    {
-        count++;
+        BindingContext = new MainBacking();
 
-        if (count == 1)
-            CounterBtn.Text = $"Clicked {count} time";
-        else
-            CounterBtn.Text = $"Clicked {count} times";
-
-        Console.WriteLine(
-            $"UIApplication.SharedApplication.ConnectedScenes.OfType<UIWindowScene>().FirstOrDefault().Windows[0].Frame.X:" +
-            $"{UIApplication.SharedApplication.ConnectedScenes.OfType<UIWindowScene>().FirstOrDefault().Windows[0].Frame.X}");
-
-        Console.WriteLine(
-            $"UIApplication.SharedApplication.ConnectedScenes.OfType<UIWindowScene>().FirstOrDefault().Windows[0].Screen.FixedCoordinateSpace.Bounds.Width:" +
-            $"{UIApplication.SharedApplication.ConnectedScenes.OfType<UIWindowScene>().FirstOrDefault().Windows[0].Screen.FixedCoordinateSpace.Bounds.X}");
-
-        Console.WriteLine(
-            $"UIApplication.SharedApplication.ConnectedScenes.OfType<UIWindowScene>().FirstOrDefault().Windows[0].Screen.Bounds.X:" +
-            $"{UIApplication.SharedApplication.ConnectedScenes.OfType<UIWindowScene>().FirstOrDefault().Windows[0].Screen.Bounds.X}");
-
-        Console.WriteLine(
-            $"UIApplication.SharedApplication.Windows[0].Frame.Height: {UIApplication.SharedApplication.Windows[0].Frame.Height}");
-
-        Console.WriteLine(
-            $"UIApplication.SharedApplication.Windows[0].Frame.X: {UIApplication.SharedApplication.Windows[0].Frame.X}");
-
-        Console.WriteLine(
-            $"UIApplication.SharedApplication.Windows[0].Frame.GetMaxX(): {UIApplication.SharedApplication.Windows[0].Frame.GetMaxX()}");
-
-        Console.WriteLine(
-            $"UIApplication.SharedApplication.Windows[0].WindowLevel: {UIApplication.SharedApplication.Windows[0].WindowLevel}");
-
-
-        SemanticScreenReader.Announce(CounterBtn.Text);
+        Mirror.SizeChanged += (sender, args) =>
+        {
+            if (sender is Image image && Application.Current.Windows.Count > 0)
+            {
+                var logger = loggerFactory.CreateLogger<MainPage>();
+                logger.LogInformation(
+                    $"control width: {image.Width}, control height: {image.Height}, app height: {App.Current.Windows[0].Height}, app width: {App.Current.Windows[0].Width}");
+            }
+        };
     }
 }
