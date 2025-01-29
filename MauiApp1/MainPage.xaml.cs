@@ -16,7 +16,7 @@ public partial class MainPage : ContentPage
             {
                 var logger = loggerFactory.CreateLogger<MainPage>();
                 logger.LogInformation(
-                    $"control width: {image.Width}, control height: {image.Height}, app height: {App.Current.Windows[0].Height}, app width: {App.Current.Windows[0].Width}");
+                    $"control width: {image.Width}, control height: {image.Height}, app width: {App.Current.Windows[0].Width}, app height: {App.Current.Windows[0].Height}");
             }
         };
     }
