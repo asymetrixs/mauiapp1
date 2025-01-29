@@ -10,7 +10,7 @@ public partial class MainPage : ContentPage
 
         BindingContext = new MainBacking();
 
-        Mirror.SizeChanged += (sender, args) =>
+        ImageControl.SizeChanged += (sender, args) =>
         {
             if (sender is Image image && Application.Current.Windows.Count > 0)
             {

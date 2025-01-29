@@ -12,7 +12,7 @@
 
     <Grid RowDefinitions="Auto, *">
         <Image Grid.Row="1"
-               x:Name="Mirror"
+               x:Name="ImageControl"
                Source="{Binding CurrentImage}"
                Aspect="AspectFill"
                HorizontalOptions="FillAndExpand"
